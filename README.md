@@ -105,3 +105,15 @@
 - UUID можно сгенерировать с помощью `github.com/google/uuid`
 - Статусы и методы оплаты лучше оформить через enum-константы
 
+
+
+
+<!-- ./bin/ogen --target ./gen/order --package orderapi --clean --allow-remote ./shared/api/order/v1/order.openapi.yaml
+
+./bin/ogen \
+  --file shared/api/order/v1/order.openapi.yaml \
+  --target ./order/gen/v1 \
+  --package order_v1 \
+  --clean \
+  --allow-remote -->
+

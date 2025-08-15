@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - $ref: './order_dto.yaml'
+  - type: object
+    required:
+      - payment_method
+      - status
+    properties:
+      payment_method:
+        $ref: './enums/payment_method.yaml'
+      status:
+        $ref: './enums/order_status.yaml'

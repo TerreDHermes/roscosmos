@@ -1,24 +1,18 @@
 parameters:
   - $ref: ../params/order_uuid.yaml
 
-post:
-  summary: Проводит оплату ранее созданного заказа.
-  operationId: PayOrder
+get:
+  summary: получить заказ по UUID.
+  operationId: GetOrder
   tags:
-    - PayOrder
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: ../components/pay_order_request.yaml
+    - GetOrder
   responses:
     '200':
-      description: Заказ успешно оплачен
+      description: Заказ найден
       content:
         application/json:
           schema:
-            $ref: ../components/pay_order_response.yaml
+            $ref: ../components/get_order_response.yaml
     '400':
       description: Некорректные данные
       content:

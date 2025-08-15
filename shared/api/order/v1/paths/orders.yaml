@@ -1,6 +1,6 @@
 post:
   summary: Создание заказа
-  operationID: CreateOrder
+  operationId: CreateOrder
   tags:
     - CreateOrder
   requestBody:
@@ -8,35 +8,35 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../components/create_order_request.yaml
+          $ref: '../components/create_order_request.yaml'
   responses:
     '200':
       description: Заказ успешно создан
       content:
         application/json:
           schema:
-            $ref: ../components/create_order_response.yaml
+            $ref: '../components/create_order_response.yaml'
     '400':
       description: Некорректные данные
       content:
         application/json:
           schema:
-            $ref: ../components/errors/bad_request_error.yaml
+            $ref: '../components/errors/bad_request_error.yaml'
     '404':
       description: Данные не найдены
       content:
         application/json:
           schema:
-            $ref: ../components/errors/not_found_error.yaml
+            $ref: '../components/errors/not_found_error.yaml'
     '500':
       description: Ошибка на сервере
       content:
         application/json:
           schema:
-            $ref: ../components/errors/internal_server_error.yaml
+            $ref: '../components/errors/internal_server_error.yaml'
     default:
       description: Неизвестная ошибка
       content:
         application/json:
           schema:
-            $ref: ../components/errors/generic_error.yaml 
+            $ref: '../components/errors/generic_error.yaml'

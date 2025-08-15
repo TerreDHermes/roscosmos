@@ -1,0 +1,12 @@
+parser:
+  infer_types: false
+  allow_remote: true
+  depth_limit: 1000
+
+generator:
+  features:
+    enable:
+      - "debug/example_tests"
+    disable:
+      - "paths/server"
+  ignore_not_implemented: ["all"]

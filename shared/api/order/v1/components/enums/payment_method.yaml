@@ -1,0 +1,18 @@
+type: string
+description: Метод оплаты
+enum:
+  - CARD
+  - UNKNOWN
+  - SBP
+  - CREDIT_CARD
+  - INVESTOR_MONEY
+example: CARD
+
+
+# | Название       | Значение | Описание                 |
+# |----------------|----------|--------------------------|
+# | UNKNOWN        | 0        | Неизвестный способ       |
+# | CARD           | 1        | Банковская карта         |
+# | SBP            | 2        | Система быстрых платежей |
+# | CREDIT_CARD    | 3        | Кредитная карта          |
+# | INVESTOR_MONEY | 4        | Деньги инвестора         |
