@@ -408,11 +408,11 @@ func decodeGetOrderResponse(resp *http.Response) (res GetOrderRes, _ error) {
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodePayCancelResponse(resp *http.Response) (res PayCancelRes, _ error) {
+func decodeOrderCancelResponse(resp *http.Response) (res OrderCancelRes, _ error) {
 	switch resp.StatusCode {
 	case 202:
 		// Code 202.
-		return &PayCancelAccepted{}, nil
+		return &OrderCancelAccepted{}, nil
 	case 400:
 		// Code 400.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
@@ -485,7 +485,7 @@ func decodePayCancelResponse(resp *http.Response) (res PayCancelRes, _ error) {
 		}
 	case 409:
 		// Code 409.
-		return &PayCancelConflict{}, nil
+		return &OrderCancelConflict{}, nil
 	case 500:
 		// Code 500.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))

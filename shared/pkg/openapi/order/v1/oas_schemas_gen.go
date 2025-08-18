@@ -30,7 +30,7 @@ func (s *BadRequestError) SetMessage(val string) {
 
 func (*BadRequestError) createOrderRes() {}
 func (*BadRequestError) getOrderRes()    {}
-func (*BadRequestError) payCancelRes()   {}
+func (*BadRequestError) orderCancelRes() {}
 func (*BadRequestError) payOrderRes()    {}
 
 // Ref: #
@@ -133,91 +133,19 @@ func (s *GenericErrorStatusCode) SetResponse(val GenericError) {
 	s.Response = val
 }
 
-// Merged schema.
 // Ref: #
 type GetOrderResponse struct {
-	// UUID заказа.
-	OrderUUID string `json:"order_uuid"`
-	// UUID пользователя.
-	UserUUID string `json:"user_uuid"`
-	// Список UUID частей.
-	PartUuids []string `json:"part_uuids"`
-	// Цена заказа.
-	TotalPrice float32 `json:"total_price"`
-	// UUID транзакции.
-	TransactionUUID string        `json:"transaction_uuid"`
-	PaymentMethod   PaymentMethod `json:"payment_method"`
-	Status          OrderStatus   `json:"status"`
+	OrderDto OrderDto `json:"order_dto"`
 }
 
-// GetOrderUUID returns the value of OrderUUID.
-func (s *GetOrderResponse) GetOrderUUID() string {
-	return s.OrderUUID
+// GetOrderDto returns the value of OrderDto.
+func (s *GetOrderResponse) GetOrderDto() OrderDto {
+	return s.OrderDto
 }
 
-// GetUserUUID returns the value of UserUUID.
-func (s *GetOrderResponse) GetUserUUID() string {
-	return s.UserUUID
-}
-
-// GetPartUuids returns the value of PartUuids.
-func (s *GetOrderResponse) GetPartUuids() []string {
-	return s.PartUuids
-}
-
-// GetTotalPrice returns the value of TotalPrice.
-func (s *GetOrderResponse) GetTotalPrice() float32 {
-	return s.TotalPrice
-}
-
-// GetTransactionUUID returns the value of TransactionUUID.
-func (s *GetOrderResponse) GetTransactionUUID() string {
-	return s.TransactionUUID
-}
-
-// GetPaymentMethod returns the value of PaymentMethod.
-func (s *GetOrderResponse) GetPaymentMethod() PaymentMethod {
-	return s.PaymentMethod
-}
-
-// GetStatus returns the value of Status.
-func (s *GetOrderResponse) GetStatus() OrderStatus {
-	return s.Status
-}
-
-// SetOrderUUID sets the value of OrderUUID.
-func (s *GetOrderResponse) SetOrderUUID(val string) {
-	s.OrderUUID = val
-}
-
-// SetUserUUID sets the value of UserUUID.
-func (s *GetOrderResponse) SetUserUUID(val string) {
-	s.UserUUID = val
-}
-
-// SetPartUuids sets the value of PartUuids.
-func (s *GetOrderResponse) SetPartUuids(val []string) {
-	s.PartUuids = val
-}
-
-// SetTotalPrice sets the value of TotalPrice.
-func (s *GetOrderResponse) SetTotalPrice(val float32) {
-	s.TotalPrice = val
-}
-
-// SetTransactionUUID sets the value of TransactionUUID.
-func (s *GetOrderResponse) SetTransactionUUID(val string) {
-	s.TransactionUUID = val
-}
-
-// SetPaymentMethod sets the value of PaymentMethod.
-func (s *GetOrderResponse) SetPaymentMethod(val PaymentMethod) {
-	s.PaymentMethod = val
-}
-
-// SetStatus sets the value of Status.
-func (s *GetOrderResponse) SetStatus(val OrderStatus) {
-	s.Status = val
+// SetOrderDto sets the value of OrderDto.
+func (s *GetOrderResponse) SetOrderDto(val OrderDto) {
+	s.OrderDto = val
 }
 
 func (*GetOrderResponse) getOrderRes() {}
@@ -240,7 +168,7 @@ func (s *InternalServerError) SetMessage(val string) {
 
 func (*InternalServerError) createOrderRes() {}
 func (*InternalServerError) getOrderRes()    {}
-func (*InternalServerError) payCancelRes()   {}
+func (*InternalServerError) orderCancelRes() {}
 func (*InternalServerError) payOrderRes()    {}
 
 // Ref: #
@@ -261,8 +189,100 @@ func (s *NotFoundError) SetMessage(val string) {
 
 func (*NotFoundError) createOrderRes() {}
 func (*NotFoundError) getOrderRes()    {}
-func (*NotFoundError) payCancelRes()   {}
+func (*NotFoundError) orderCancelRes() {}
 func (*NotFoundError) payOrderRes()    {}
+
+// NewOptOrderStatus returns new OptOrderStatus with value set to v.
+func NewOptOrderStatus(v OrderStatus) OptOrderStatus {
+	return OptOrderStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptOrderStatus is optional OrderStatus.
+type OptOrderStatus struct {
+	Value OrderStatus
+	Set   bool
+}
+
+// IsSet returns true if OptOrderStatus was set.
+func (o OptOrderStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptOrderStatus) Reset() {
+	var v OrderStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptOrderStatus) SetTo(v OrderStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptOrderStatus) Get() (v OrderStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptOrderStatus) Or(d OrderStatus) OrderStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPaymentMethod returns new OptPaymentMethod with value set to v.
+func NewOptPaymentMethod(v PaymentMethod) OptPaymentMethod {
+	return OptPaymentMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentMethod is optional PaymentMethod.
+type OptPaymentMethod struct {
+	Value PaymentMethod
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentMethod was set.
+func (o OptPaymentMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentMethod) Reset() {
+	var v PaymentMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentMethod) SetTo(v PaymentMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentMethod) Get() (v PaymentMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentMethod) Or(d PaymentMethod) PaymentMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
 
 // NewOptString returns new OptString with value set to v.
 func NewOptString(v string) OptString {
@@ -308,6 +328,102 @@ func (o OptString) Or(d string) string {
 		return v
 	}
 	return d
+}
+
+// OrderCancelAccepted is response for OrderCancel operation.
+type OrderCancelAccepted struct{}
+
+func (*OrderCancelAccepted) orderCancelRes() {}
+
+// OrderCancelConflict is response for OrderCancel operation.
+type OrderCancelConflict struct{}
+
+func (*OrderCancelConflict) orderCancelRes() {}
+
+// Ref: #
+type OrderDto struct {
+	// UUID заказа.
+	OrderUUID string `json:"order_uuid"`
+	// UUID пользователя.
+	UserUUID string `json:"user_uuid"`
+	// Список UUID частей.
+	PartUuids []string `json:"part_uuids"`
+	// Цена заказа.
+	TotalPrice float32 `json:"total_price"`
+	// UUID транзакции.
+	TransactionUUID string           `json:"transaction_uuid"`
+	PaymentMethod   OptPaymentMethod `json:"payment_method"`
+	Status          OptOrderStatus   `json:"status"`
+}
+
+// GetOrderUUID returns the value of OrderUUID.
+func (s *OrderDto) GetOrderUUID() string {
+	return s.OrderUUID
+}
+
+// GetUserUUID returns the value of UserUUID.
+func (s *OrderDto) GetUserUUID() string {
+	return s.UserUUID
+}
+
+// GetPartUuids returns the value of PartUuids.
+func (s *OrderDto) GetPartUuids() []string {
+	return s.PartUuids
+}
+
+// GetTotalPrice returns the value of TotalPrice.
+func (s *OrderDto) GetTotalPrice() float32 {
+	return s.TotalPrice
+}
+
+// GetTransactionUUID returns the value of TransactionUUID.
+func (s *OrderDto) GetTransactionUUID() string {
+	return s.TransactionUUID
+}
+
+// GetPaymentMethod returns the value of PaymentMethod.
+func (s *OrderDto) GetPaymentMethod() OptPaymentMethod {
+	return s.PaymentMethod
+}
+
+// GetStatus returns the value of Status.
+func (s *OrderDto) GetStatus() OptOrderStatus {
+	return s.Status
+}
+
+// SetOrderUUID sets the value of OrderUUID.
+func (s *OrderDto) SetOrderUUID(val string) {
+	s.OrderUUID = val
+}
+
+// SetUserUUID sets the value of UserUUID.
+func (s *OrderDto) SetUserUUID(val string) {
+	s.UserUUID = val
+}
+
+// SetPartUuids sets the value of PartUuids.
+func (s *OrderDto) SetPartUuids(val []string) {
+	s.PartUuids = val
+}
+
+// SetTotalPrice sets the value of TotalPrice.
+func (s *OrderDto) SetTotalPrice(val float32) {
+	s.TotalPrice = val
+}
+
+// SetTransactionUUID sets the value of TransactionUUID.
+func (s *OrderDto) SetTransactionUUID(val string) {
+	s.TransactionUUID = val
+}
+
+// SetPaymentMethod sets the value of PaymentMethod.
+func (s *OrderDto) SetPaymentMethod(val OptPaymentMethod) {
+	s.PaymentMethod = val
+}
+
+// SetStatus sets the value of Status.
+func (s *OrderDto) SetStatus(val OptOrderStatus) {
+	s.Status = val
 }
 
 // Статус заказа.
@@ -359,16 +475,6 @@ func (s *OrderStatus) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
-
-// PayCancelAccepted is response for PayCancel operation.
-type PayCancelAccepted struct{}
-
-func (*PayCancelAccepted) payCancelRes() {}
-
-// PayCancelConflict is response for PayCancel operation.
-type PayCancelConflict struct{}
-
-func (*PayCancelConflict) payCancelRes() {}
 
 // Ref: #
 type PayOrderRequest struct {

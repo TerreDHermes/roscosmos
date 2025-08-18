@@ -40,12 +40,12 @@ type Invoker interface {
 	//
 	// GET /api/v1/orders/{order_uuid}
 	GetOrder(ctx context.Context, params GetOrderParams) (GetOrderRes, error)
-	// PayCancel invokes PayCancel operation.
+	// OrderCancel invokes OrderCancel operation.
 	//
 	// Отменяет заказ.
 	//
 	// POST /api/v1/orders/{order_uuid}/cancel
-	PayCancel(ctx context.Context, params PayCancelParams) (PayCancelRes, error)
+	OrderCancel(ctx context.Context, params OrderCancelParams) (OrderCancelRes, error)
 	// PayOrder invokes PayOrder operation.
 	//
 	// Проводит оплату ранее созданного заказа.
@@ -59,6 +59,14 @@ type Client struct {
 	serverURL *url.URL
 	baseClient
 }
+type errorHandler interface {
+	NewError(ctx context.Context, err error) *GenericErrorStatusCode
+}
+
+var _ Handler = struct {
+	errorHandler
+	*Client
+}{}
 
 // NewClient initializes new Client defined by OAS.
 func NewClient(serverURL string, opts ...ClientOption) (*Client, error) {
@@ -258,19 +266,19 @@ func (c *Client) sendGetOrder(ctx context.Context, params GetOrderParams) (res G
 	return result, nil
 }
 
-// PayCancel invokes PayCancel operation.
+// OrderCancel invokes OrderCancel operation.
 //
 // Отменяет заказ.
 //
 // POST /api/v1/orders/{order_uuid}/cancel
-func (c *Client) PayCancel(ctx context.Context, params PayCancelParams) (PayCancelRes, error) {
-	res, err := c.sendPayCancel(ctx, params)
+func (c *Client) OrderCancel(ctx context.Context, params OrderCancelParams) (OrderCancelRes, error) {
+	res, err := c.sendOrderCancel(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendPayCancel(ctx context.Context, params PayCancelParams) (res PayCancelRes, err error) {
+func (c *Client) sendOrderCancel(ctx context.Context, params OrderCancelParams) (res OrderCancelRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		otelogen.OperationID("PayCancel"),
+		otelogen.OperationID("OrderCancel"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/api/v1/orders/{order_uuid}/cancel"),
 	}
@@ -287,7 +295,7 @@ func (c *Client) sendPayCancel(ctx context.Context, params PayCancelParams) (res
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, PayCancelOperation,
+	ctx, span := c.cfg.Tracer.Start(ctx, OrderCancelOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -341,7 +349,7 @@ func (c *Client) sendPayCancel(ctx context.Context, params PayCancelParams) (res
 	defer resp.Body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodePayCancelResponse(resp)
+	result, err := decodeOrderCancelResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

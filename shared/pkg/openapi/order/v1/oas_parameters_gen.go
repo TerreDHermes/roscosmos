@@ -2,20 +2,261 @@
 
 package order_v1
 
+import (
+	"net/http"
+	"net/url"
+
+	"github.com/go-faster/errors"
+
+	"github.com/ogen-go/ogen/conv"
+	"github.com/ogen-go/ogen/middleware"
+	"github.com/ogen-go/ogen/ogenerrors"
+	"github.com/ogen-go/ogen/uri"
+	"github.com/ogen-go/ogen/validate"
+)
+
 // GetOrderParams is parameters of GetOrder operation.
 type GetOrderParams struct {
 	// UUID заказа.
 	OrderUUID string
 }
 
-// PayCancelParams is parameters of PayCancel operation.
-type PayCancelParams struct {
+func unpackGetOrderParams(packed middleware.Parameters) (params GetOrderParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "order_uuid",
+			In:   "path",
+		}
+		params.OrderUUID = packed[key].(string)
+	}
+	return params
+}
+
+func decodeGetOrderParams(args [1]string, argsEscaped bool, r *http.Request) (params GetOrderParams, _ error) {
+	// Decode path: order_uuid.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "order_uuid",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.OrderUUID = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:    36,
+					MinLengthSet: true,
+					MaxLength:    36,
+					MaxLengthSet: true,
+					Email:        false,
+					Hostname:     false,
+					Regex:        nil,
+				}).Validate(string(params.OrderUUID)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "order_uuid",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
+// OrderCancelParams is parameters of OrderCancel operation.
+type OrderCancelParams struct {
 	// UUID заказа.
 	OrderUUID string
+}
+
+func unpackOrderCancelParams(packed middleware.Parameters) (params OrderCancelParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "order_uuid",
+			In:   "path",
+		}
+		params.OrderUUID = packed[key].(string)
+	}
+	return params
+}
+
+func decodeOrderCancelParams(args [1]string, argsEscaped bool, r *http.Request) (params OrderCancelParams, _ error) {
+	// Decode path: order_uuid.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "order_uuid",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.OrderUUID = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:    36,
+					MinLengthSet: true,
+					MaxLength:    36,
+					MaxLengthSet: true,
+					Email:        false,
+					Hostname:     false,
+					Regex:        nil,
+				}).Validate(string(params.OrderUUID)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "order_uuid",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
 }
 
 // PayOrderParams is parameters of PayOrder operation.
 type PayOrderParams struct {
 	// UUID заказа.
 	OrderUUID string
+}
+
+func unpackPayOrderParams(packed middleware.Parameters) (params PayOrderParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "order_uuid",
+			In:   "path",
+		}
+		params.OrderUUID = packed[key].(string)
+	}
+	return params
+}
+
+func decodePayOrderParams(args [1]string, argsEscaped bool, r *http.Request) (params PayOrderParams, _ error) {
+	// Decode path: order_uuid.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "order_uuid",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.OrderUUID = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:    36,
+					MinLengthSet: true,
+					MaxLength:    36,
+					MaxLengthSet: true,
+					Email:        false,
+					Hostname:     false,
+					Regex:        nil,
+				}).Validate(string(params.OrderUUID)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "order_uuid",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
 }

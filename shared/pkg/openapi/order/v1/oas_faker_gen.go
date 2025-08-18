@@ -59,6 +59,60 @@ func (s *GenericError) SetFake() {
 func (s *GetOrderResponse) SetFake() {
 	{
 		{
+			s.OrderDto.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *InternalServerError) SetFake() {
+	{
+		{
+			s.Message = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NotFoundError) SetFake() {
+	{
+		{
+			s.Message = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *OptOrderStatus) SetFake() {
+	var elem OrderStatus
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptPaymentMethod) SetFake() {
+	var elem PaymentMethod
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptString) SetFake() {
+	var elem string
+	{
+		elem = "string"
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OrderDto) SetFake() {
+	{
+		{
 			s.OrderUUID = "string"
 		}
 	}
@@ -99,33 +153,6 @@ func (s *GetOrderResponse) SetFake() {
 			s.Status.SetFake()
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *InternalServerError) SetFake() {
-	{
-		{
-			s.Message = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *NotFoundError) SetFake() {
-	{
-		{
-			s.Message = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OptString) SetFake() {
-	var elem string
-	{
-		elem = "string"
-	}
-	s.SetTo(elem)
 }
 
 // SetFake set fake values.

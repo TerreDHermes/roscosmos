@@ -7,6 +7,4 @@ generator:
   features:
     enable:
       - "debug/example_tests"
-    disable:
-      - "paths/server"
   ignore_not_implemented: ["all"]

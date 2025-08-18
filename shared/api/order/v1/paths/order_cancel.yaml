@@ -3,9 +3,9 @@ parameters:
 
 post:
   summary: Отменяет заказ.
-  operationId: PayCancel
+  operationId: OrderCancel
   tags:
-    - PayCancel
+    - OrderCancel
   responses:
     '202':
       description: Заказ успешно отменен

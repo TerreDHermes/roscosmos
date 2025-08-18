@@ -9,8 +9,8 @@ type GetOrderRes interface {
 	getOrderRes()
 }
 
-type PayCancelRes interface {
-	payCancelRes()
+type OrderCancelRes interface {
+	orderCancelRes()
 }
 
 type PayOrderRes interface {

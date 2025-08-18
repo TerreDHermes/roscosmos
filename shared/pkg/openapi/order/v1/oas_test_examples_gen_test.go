@@ -100,6 +100,18 @@ func TestNotFoundError_EncodeDecode(t *testing.T) {
 	var typ2 NotFoundError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestOrderDto_EncodeDecode(t *testing.T) {
+	var typ OrderDto
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 OrderDto
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestOrderStatus_EncodeDecode(t *testing.T) {
 	var typ OrderStatus
 	typ.SetFake()
