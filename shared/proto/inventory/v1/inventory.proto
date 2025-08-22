@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+// Package inventory.v1 содержит API для предоставления информации о деталях для сборки космических кораблей
+package inventory.v1;
+
+option go_package = "github.com/TerreDHermes/roscosmos/shared/pkg/proto/inventory/v1;inventory_v1";
+
+
