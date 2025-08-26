@@ -3,6 +3,107 @@ syntax = "proto3";
 // Package inventory.v1 содержит API для предоставления информации о деталях для сборки космических кораблей
 package inventory.v1;
 
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+
 option go_package = "github.com/TerreDHermes/roscosmos/shared/pkg/proto/inventory/v1;inventory_v1";
 
+service Inventory {
+    // Возвращает информацию о детали по её UUID.
+    rpc GetPart (GetPartRequest) returns (GetPartResponce);
+}
 
+message GetPartRequest{
+    string uuid = 1;
+}
+
+message GetPartResponce{
+    PartInformation partInformation = 1;
+}
+
+message PartInformation{
+    // Уникальный идентификатор детали 
+    string uuid = 1;
+
+    // Название детали  
+    string name = 2;
+
+    // Описание детали
+    string description = 3;
+
+    // Цена за единицу
+    double price = 4;
+
+    // Количество на складе
+    google.protobuf.Int64Value stock_quantity = 5;
+
+    // Категория
+    Category category = 6;
+
+    // Размеры детали
+    Dimensions  dimensions = 7;
+
+    // Информация о производителе
+    Manufacturer manufacturer = 8;
+
+    // Теги для быстрого поиска
+    repeated string tags = 9;
+
+    // Гибкие метаданные 
+    map<string, Value> metadata = 10;
+
+    // Дата создания
+    google.protobuf.Timestamp created_at = 11;
+
+    // Дата обновления
+    google.protobuf.Timestamp updated_at = 12;
+}
+
+enum Category{
+    // Неизвестно
+    UNKNOWN = 0;
+    // Двигатель
+    ENGINE = 1;
+    // Топливо
+    FUEL = 2;
+    // Иллюминатор 
+    PORTHOLE = 3;
+    // Крыло
+    WING = 4;
+}
+
+
+message Dimensions {
+    // Длина
+    double length = 1;
+    // Ширина
+    double width = 2;
+    // Высота
+    double height = 3;
+    // Вес
+    double weight = 4;
+}
+
+message Manufacturer{
+    // Название
+    string name = 1;
+    // Страна производства 
+    string country = 2;
+    // Сайт производителя 
+    string website = 3; 
+}
+
+message Value {
+  // The kind of value.
+  oneof kind {
+    // Строковое значение
+    string string_value = 1;
+    // Целое значение
+    int64 int64_value = 2;
+    // Дробное значение
+    double double_value = 4;
+    // Логическое значение
+    bool bool_value = 5;
+  }
+}

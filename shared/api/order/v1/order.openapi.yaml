@@ -28,4 +28,4 @@ paths:
 #### `GET /api/v1/orders/{order_uuid}` — получить заказ по UUID - order_by_uuid.yaml
 #### `POST /api/v1/orders/{order_uuid}/cancel` — отменить заказ - order_cancel.yaml
 
-
+# /api/v1/orders and /api/v1/orders/{order_uuid}/pay and /api/v1/orders/{order_uuid}
